@@ -1,4 +1,4 @@
-import { Hobby } from '../types/Hobby'
+import type { Hobby } from '../types/Hobby'
 
 interface HobbyCardProps {
     hobby: Hobby
