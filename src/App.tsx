@@ -4,18 +4,23 @@ import HobbyCard from './components/HobbyCard'
 import type { Hobby } from './types/Hobby'
 
 function App() {
-  const hobbies: Hobby[] = [{ id: 1, name: 'Test Hobby', imageUrl: 'test', description: 'This is a test hobby', totalProjects: 5, completedProjects: 3, inProgressProjects: 2 },
-    { id: 2, name: 'Test Hobby 2', imageUrl: 'test', description: 'This is another test hobby', totalProjects: 10, completedProjects: 7, inProgressProjects: 3 },
-    { id: 3, name: 'Test Hobby 3', imageUrl: 'test', description: 'This is yet another test hobby', totalProjects: 15, completedProjects: 10, inProgressProjects: 5 }]
+  const hobbies: Hobby[] = [{ id: 1, name: 'Woodworking', imageUrl: undefined, description: undefined, totalProjects: 15, completedProjects: 10, inProgressProjects: 5, iconName: 'axe' },
+    { id: 2, name: 'Painting', imageUrl: undefined, description: undefined, totalProjects: 5, completedProjects: 3, inProgressProjects: 2, iconName: 'paintbrush' },
+    { id: 3, name: 'Photography', imageUrl: undefined, description: undefined, totalProjects: 10, completedProjects: 7, inProgressProjects: 3, iconName: 'camera' },
+    { id: 4, name: 'Music', imageUrl: undefined, description: undefined, totalProjects: 15, completedProjects: 10, inProgressProjects: 5, iconName: 'music' }]
 
   return (
-    <>
+    <div className="app">
       <Header />
-      {hobbies.map((hobby) => (
-        <HobbyCard key={hobby.id} hobby={hobby} />
-      ))}
-
-    </>
+      <main className="main-content">
+        <h1 className="section-label">My Hobbies</h1>
+        <div className="hobby-grid">
+          {hobbies.map((hobby) => (
+            <HobbyCard key={hobby.id} hobby={hobby} />
+          ))}
+        </div>
+      </main>
+    </div>
   )
 }
 
