@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "H3PTPIfcVAM=",
+  "success": true,
+  "projectFilePath": "W:\\Work\\Projects\\Hobdex\\hobdex\\api\\Hobdex.Api\\Hobdex.Api.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Paul\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.5\\microsoft.aspnetcore.openapi.10.0.5.nupkg.sha512",
+    "C:\\Users\\Paul\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
