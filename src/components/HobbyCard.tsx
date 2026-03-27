@@ -1,4 +1,4 @@
-import { Axe, Book, Camera, Dumbbell, Music, Paintbrush } from 'lucide-react'
+import { Axe, Book, Camera, Dumbbell, Music, Paintbrush, Plane } from 'lucide-react'
 import type { Hobby } from '../types/Hobby'
 import './HobbyCard.css'
 
@@ -13,6 +13,7 @@ const iconMap = {
         book: Book,
         axe: Axe,
         dumbbell: Dumbbell,
+        plane: Plane,
     }
 
 function HobbyCard({ hobby }: HobbyCardProps) {

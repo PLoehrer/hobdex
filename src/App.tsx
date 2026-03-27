@@ -7,7 +7,9 @@ function App() {
   const hobbies: Hobby[] = [{ id: 1, name: 'Woodworking', imageUrl: undefined, description: undefined, totalProjects: 15, completedProjects: 10, inProgressProjects: 5, iconName: 'axe' },
     { id: 2, name: 'Painting', imageUrl: undefined, description: undefined, totalProjects: 5, completedProjects: 3, inProgressProjects: 2, iconName: 'paintbrush' },
     { id: 3, name: 'Weightlifting', imageUrl: undefined, description: undefined, totalProjects: 10, completedProjects: 7, inProgressProjects: 3, iconName: 'dumbbell' },
-    { id: 4, name: 'Music', imageUrl: undefined, description: undefined, totalProjects: 15, completedProjects: 10, inProgressProjects: 5, iconName: 'music' }]
+    { id: 4, name: 'Music', imageUrl: undefined, description: undefined, totalProjects: 15, completedProjects: 10, inProgressProjects: 5, iconName: 'music' },
+    { id: 5, name: 'Travel', imageUrl: undefined, description: undefined, totalProjects: 15, completedProjects: 10, inProgressProjects: 5, iconName: 'plane' },
+    { id: 6, name: 'Reading', imageUrl: undefined, description: undefined, totalProjects: 15, completedProjects: 10, inProgressProjects: 5, iconName: 'book' }]
 
   return (
     <div className="app">
