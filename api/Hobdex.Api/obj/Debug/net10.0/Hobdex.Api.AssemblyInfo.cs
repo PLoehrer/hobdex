@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Hobdex.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+517c73a66ef9301869dd24529430a61f9063e11d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b60ec56beae308da7825be367b895e7a2bbbce8d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Hobdex.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Hobdex.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
