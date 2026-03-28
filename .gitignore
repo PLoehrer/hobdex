@@ -5,8 +5,8 @@ client/.env.local
 client/.env
 
 # API
-api/Hobdex.Api/bin/
-api/Hobdex.Api/obj/
+**/bin/
+**/obj/
 
 # VS Code
 .vscode/
