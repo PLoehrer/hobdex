@@ -1,0 +1,16 @@
+# Client
+client/node_modules/
+client/dist/
+client/.env.local
+client/.env
+
+# API
+api/Hobdex.Api/bin/
+api/Hobdex.Api/obj/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

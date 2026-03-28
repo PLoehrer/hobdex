@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("319e879b-c271-4c4f-9543-7268e2a3cb84")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("Hobdex.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3e792308964fc50e867db54fa5d9192af11e3c59")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+517c73a66ef9301869dd24529430a61f9063e11d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Hobdex.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Hobdex.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

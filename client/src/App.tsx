@@ -6,8 +6,9 @@ import type { Hobby } from './types/Hobby'
 
 function App() {
   const [hobbies, setHobbies] = useState<Hobby[]>([]);
+  const API_URL = import.meta.env.VITE_API_URL;
   useEffect(() => {
-    fetch('http://localhost:5109/hobbies')
+    fetch(`${API_URL}/hobbies`)
       .then(res => res.json())
       .then(data => setHobbies(data))
       .catch(err => console.error('Error fetching hobbies:', err));
