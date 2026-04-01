@@ -29,6 +29,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowClient");
-HobbyEndpoints.MapHobbyEndpoints(app);
+app.MapHobbyEndpoints();
+app.MapEntryStatusEndpoints();
+app.MapEntryTypeEndpoints();
+app.MapTagEndpoints();
+app.MapEntryEndpoints();
 
 app.Run();
