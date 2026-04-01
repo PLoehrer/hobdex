@@ -1,5 +1,6 @@
 using Hobdex.Api.Data;
 using Hobdex.Api.DTOs;
+using Hobdex.Api.Constants;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hobdex.Api.Endpoints;
@@ -18,9 +19,9 @@ public static class HobbyEndpoints
                     ImageUrl = h.ImageUrl,
                     Description = h.Description,
                     IconName = h.IconName,
-                    TotalProjects = 0,
-                    CompletedProjects = 0,
-                    InProgressProjects = 0
+                    TotalEntries = h.Entries.Count(),
+                    CompletedEntries = h.Entries.Count(e => e.EntryStatus.Name == EntryStatusNames.Completed),
+                    InProgressEntries = h.Entries.Count(e => e.EntryStatus.Name == EntryStatusNames.InProgress),
                 })
                 .ToListAsync();
 

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hobdex.Api.Migrations
 {
     [DbContext(typeof(HobdexDbContext))]
-    [Migration("20260401021627_FullSchema")]
+    [Migration("20260401033955_FullSchema")]
     partial class FullSchema
     {
         /// <inheritdoc />

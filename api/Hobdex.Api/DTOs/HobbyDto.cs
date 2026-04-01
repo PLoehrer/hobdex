@@ -7,7 +7,7 @@ public class HobbyDto
     public string? ImageUrl { get; set; }
     public string? Description { get; set; }
     public string? IconName { get; set; }
-    public int TotalProjects { get; set; }
-    public int CompletedProjects { get; set; }
-    public int InProgressProjects { get; set; }
+    public int TotalEntries { get; set; }
+    public int CompletedEntries { get; set; }
+    public int InProgressEntries { get; set; }
 }
