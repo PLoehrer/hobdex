@@ -1,4 +1,4 @@
-import { Axe, Book, Camera, Dumbbell, Music, Paintbrush, Plane } from 'lucide-react'
+import { Box, Axe, Book, Dumbbell, Music, Paintbrush, MapPin, Gamepad2, Tv, Clapperboard } from 'lucide-react'
 import type { Hobby } from '../types/Hobby'
 import './HobbyCard.css'
 
@@ -7,17 +7,20 @@ interface HobbyCardProps {
 }
 
 const iconMap = {
+        box: Box,
         paintbrush: Paintbrush,
-        camera: Camera,
         music: Music,
         book: Book,
         axe: Axe,
         dumbbell: Dumbbell,
-        plane: Plane,
+        mapPin: MapPin,
+        gamepad2: Gamepad2,
+        tv: Tv,
+        clapperboard: Clapperboard
     }
 
 function HobbyCard({ hobby }: HobbyCardProps) {
-    const Icon = iconMap[hobby.iconName]
+    const Icon = iconMap[hobby.iconName ?? "box"]
 
     return (
         <div className="hobby-card">
@@ -36,15 +39,15 @@ function HobbyCard({ hobby }: HobbyCardProps) {
                 <p className="hobby-card__description">{hobby.description}</p>
                 <div className="hobby-card__stats">
                     <div className="hobby-card__stat">
-                        <span className="hobby-card__stat-value">{hobby.totalProjects}</span>
-                        <span className="hobby-card__stat-label">Total Projects</span>
+                        <span className="hobby-card__stat-value">{hobby.totalEntries}</span>
+                        <span className="hobby-card__stat-label">Total Entries</span>
                     </div>
                     <div className="hobby-card__stat">
-                        <span className="hobby-card__stat-value">{hobby.completedProjects}</span>
+                        <span className="hobby-card__stat-value">{hobby.completedEntries}</span>
                         <span className="hobby-card__stat-label">Completed</span>
                     </div>
                     <div className="hobby-card__stat">
-                        <span className="hobby-card__stat-value">{hobby.inProgressProjects}</span>
+                        <span className="hobby-card__stat-value">{hobby.inProgressEntries}</span>
                         <span className="hobby-card__stat-label">In Progress</span>
                     </div>
                 </div>
