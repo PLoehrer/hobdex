@@ -46,3 +46,18 @@ dotnet run
 Runs at `http://localhost:5109`
 
 > Connection string is stored in .NET User Secrets and not committed to the repo.
+
+---
+
+## API Endpoints
+
+| Method | Route | Description |
+|--------|-------|-------------|
+| GET | /hobbies | All hobbies with computed entry counts |
+| GET | /hobbies/{hobbyId}/entries | Entries for a hobby |
+| POST | /entries | Create a new entry |
+| GET | /entry-statuses | All entry statuses |
+| GET | /entry-types/{userId} | Entry types for a user |
+| POST | /entry-types | Create an entry type |
+| GET | /tags/{userId} | Tags for a user |
+| POST | /tags | Create a tag |

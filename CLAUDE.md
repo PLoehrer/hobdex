@@ -33,14 +33,33 @@ hobdex/                        ← git root
     .env                       — VITE_API_URL (gitignored)
   api/
     Hobdex.Api/                ← ASP.NET Core Web API (.NET 10)
+      Constants/
+        EntryStatusNames.cs    — string constants for seeded status names
       Data/
         HobdexDbContext.cs
       DTOs/
         HobbyDto.cs
+        EntryDto.cs
+        EntryStatusDto.cs
+        EntryTypeDto.cs
+        TagDto.cs
       Endpoints/
         HobbyEndpoints.cs
+        EntryEndpoints.cs
+        EntryStatusEndpoints.cs
+        EntryTypeEndpoints.cs
+        TagEndpoints.cs
       Models/
+        AuditEntity.cs         — abstract base with CreatedOn, UpdatedOn, CreatedBy, UpdatedBy
+        User.cs
         Hobby.cs
+        Entry.cs
+        EntryLog.cs
+        EntryStatus.cs
+        EntryType.cs
+        Tag.cs
+        EntryTag.cs
+        HobbyTag.cs
       Program.cs
   hobdex.code-workspace        ← VS Code multi-root workspace
   .gitignore
@@ -64,6 +83,8 @@ hobdex/                        ← git root
 - Connection string stored in .NET User Secrets (not in appsettings)
 - CORS configured for `http://localhost:5173`
 - `dotnet ef migrations add` / `dotnet ef database update` for schema changes
+- `EF Core Select` projections used for computed counts — no `Include`/`ThenInclude`
+- Status name comparisons use `EntryStatusNames` constants (no magic strings or magic numbers)
 
 ## Frontend — established patterns
 
@@ -92,59 +113,76 @@ hobdex/                        ← git root
 - No UI library — all hand-written CSS
 - Drag-to-reorder planned for Hobbies and Entries
 
-## Full data model plan
+## Full data model — IMPLEMENTED
 
 ### Naming conventions
 - Table names are **plural** (EF Core default)
-- Audit columns on all core tables: `CreatedOn`, `UpdatedOn`, `CreatedBy` (FK → Users), `UpdatedBy` (FK → Users)
-- Mapping/lookup tables: `CreatedOn`, `UpdatedOn` only (ownership implied by parent)
+- Audit columns on all core tables via `AuditEntity` base class: `CreatedOn`, `UpdatedOn`, `CreatedBy` (int, FK → Users), `UpdatedBy` (int, FK → Users)
+- `User` does NOT extend `AuditEntity` — has its own nullable `CreatedBy`/`UpdatedBy` (null = self-registered, int = created by another user e.g. admin)
+- Mapping tables (`EntryTags`, `HobbyTags`): `CreatedOn`, `UpdatedOn` only
 - Soft delete (`IsDeleted` bool) on: `Hobbies`, `Entries`, `EntryLogs`
 - Hard delete on: `Tags`, `EntryTypes`, `EntryTags`, `HobbyTags`
-- `DisplayOrder` stored as float/decimal to allow reordering without renumbering all rows
+- `DisplayOrder` stored as `double` (float in SQL) to allow reordering without renumbering all rows
 
-### Tables
+### Tables (all implemented and migrated)
 
-**Users**
-- Id, Email, DisplayName, CreatedOn, UpdatedOn, CreatedBy, UpdatedBy
+**Users** — Id, Email, DisplayName, CreatedOn, UpdatedOn, CreatedBy (int?), UpdatedBy (int?)
 
-**Hobbies**
-- Id, UserId (FK → Users), Name, Description, IconName, ImageUrl, DisplayOrder, IsDeleted
-- CreatedOn, UpdatedOn, CreatedBy, UpdatedBy
+**Hobbies** — Id, UserId, Name, Description, IconName, ImageUrl, DisplayOrder, IsDeleted + audit
 
-**EntryStatuses** *(seeded lookup)*
-- Id, Name
-- Seed: Not Started, In Progress, Completed, Abandoned
+**EntryStatuses** *(seeded lookup)* — Id, Name
+- Seeded: Not Started (1), In Progress (2), Completed (3), Abandoned (4)
 
-**EntryTypes** *(user-defined — not a fixed lookup)*
-- Id, UserId (FK → Users), Name, Color (hex string), IsGlobal (bool — global vs hobby-scoped)
-- CreatedOn, UpdatedOn, CreatedBy, UpdatedBy
+**EntryTypes** *(user-defined)* — Id, UserId, Name, Color, IsGlobal + audit
 
-**Entries**
-- Id, HobbyId (FK → Hobbies), EntryStatusId (FK → EntryStatuses), EntryTypeId (FK → EntryTypes, nullable)
-- Title, Description, StartDate (nullable), EndDate (nullable), DisplayOrder, IsDeleted
-- CreatedOn, UpdatedOn, CreatedBy, UpdatedBy
+**Entries** — Id, HobbyId, EntryStatusId, EntryTypeId (nullable), Title, Description, StartDate, EndDate, DisplayOrder, IsDeleted + audit
 
-**EntryLogs** *(journal entries within an Entry)*
-- Id, EntryId (FK → Entries), Content, IsDeleted
-- CreatedOn, UpdatedOn
+**EntryLogs** — Id, EntryId, Content, IsDeleted, CreatedOn, UpdatedOn
 
-**Tags** *(per user)*
-- Id, UserId (FK → Users), Name, Color (hex string)
-- CreatedOn, UpdatedOn, CreatedBy, UpdatedBy
+**Tags** — Id, UserId, Name, Color + audit
 
-**EntryTags** *(mapping)*
-- EntryId (FK → Entries), TagId (FK → Tags)
+**EntryTags** *(mapping)* — EntryId, TagId, CreatedOn, UpdatedOn
 
-**HobbyTags** *(mapping)*
-- HobbyId (FK → Hobbies), TagId (FK → Tags)
+**HobbyTags** *(mapping)* — HobbyId, TagId, CreatedOn, UpdatedOn
 
 ### Key design decisions
-- Project counts (total, in progress, completed) are computed from Entries — not stored columns
-- EntryType is user-defined and flexible — not a fixed enum/lookup. Users create their own types (e.g. "Shoot", "Edit Session", "Race") and can scope them globally or per hobby via `IsGlobal` flag
-- History tables (_HS) explicitly deferred — audit columns cover MVP needs
+- Entry counts (total, in progress, completed) computed via EF `Select` projections — not stored columns
+- `EntryType` is user-defined — not a fixed enum/lookup
+- `EntryStatusNames` constants class used everywhere instead of magic strings
+- `OnDelete(DeleteBehavior.NoAction)` configured on `HobbyTag → Tag` and `EntryTag → Tag` to avoid SQL Server multiple cascade paths error
+- Global Query Filters on `Hobby`, `Entry`, `EntryLog` for automatic soft delete filtering
+- History tables (_HS) deferred — audit columns cover MVP needs
 - File/image uploads deferred to post-MVP
 - Auth deferred to post-MVP — UserId on Hobby is in place to support it later
-- EF Core Global Query Filters to be used for automatic IsDeleted filtering
+
+## Implemented API endpoints
+
+| Method | Route | Description |
+|--------|-------|-------------|
+| GET | /hobbies | All hobbies with computed entry counts |
+| GET | /hobbies/{hobbyId}/entries | Entries for a hobby |
+| POST | /entries | Create a new entry |
+| GET | /entry-statuses | All entry statuses |
+| GET | /entry-types/{userId} | Entry types for a user |
+| POST | /entry-types | Create an entry type |
+| GET | /tags/{userId} | Tags for a user |
+| POST | /tags | Create a tag |
+
+## Planned frontend phases
+
+1. **React Router + hobby detail page** ← NEXT
+2. Entry list and entry cards
+3. Add/edit forms (hobbies and entries)
+4. Entry logs
+5. Tags and filtering
+6. Drag-to-reorder (using float DisplayOrder)
+
+## Deferred / post-MVP
+
+- Authentication
+- History tables (_HS)
+- File/image upload support
+- Add/delete hobby and entry type endpoints
 
 ## Background context
 
